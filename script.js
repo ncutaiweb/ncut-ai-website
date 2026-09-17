@@ -281,6 +281,7 @@ async function loadSite() {
   if (!response.ok) throw new Error(`site.json ${response.status}`);
   siteData = await response.json();
   normalizeSiteData();
+  siteData = SiteReferences.resolve(siteData);
   document.body.classList.toggle("is-inner-page", !$("[data-hero]"));
   renderShared();
   renderMegaMenu();

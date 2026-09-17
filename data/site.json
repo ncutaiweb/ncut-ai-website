@@ -129,12 +129,12 @@
   ],
   "metrics": [
     {
-      "value": "14",
+      "value": "{{stats.faculty.fullTime}}",
       "label": "專任教師，涵蓋人工智慧相關專長"
     },
     {
       "value": "AI",
-      "label": "智慧影像、智慧運算、智慧數據"
+      "label": "{{stats.homeFeatures.titles}}"
     },
     {
       "value": "PBL",
@@ -190,7 +190,7 @@
         {
           "heading": "師資與專長",
           "body": [
-            "本系現有專任教師 13 位，其中助理教授 8 位、副教授 3 位、教授 2 位，教師皆為高階師資並具備人工智慧相關專長。",
+            "本系現有專任教師 {{stats.faculty.fullTime}} 位，師資組成：{{stats.faculty.rankSummary}}。教師皆為高階師資並具備人工智慧相關專長。",
             "師資專長領域涵蓋人工智慧、影像處理、機器學習、大數據、物聯網、雲端運算、元宇宙等多個熱門領域，並應用於醫學影像分析、智慧製造、電腦視覺、智慧虛實等專業範疇。"
           ]
         }
@@ -227,7 +227,7 @@
       "slug": "development",
       "group": "系所介紹",
       "title": "發展方向",
-      "summary": "聚焦智慧影像、智慧運算及智慧數據三大核心技術領域，延伸 AI 機器人、AIoT、元宇宙與產學合作。",
+      "summary": "聚焦{{stats.homeFeatures.titles}}等 {{stats.homeFeatures.total}} 大核心技術領域，延伸 AI 機器人、AIoT、元宇宙與產學合作。",
       "image": "https://n063.ncut.edu.tw/var/file/63/1063/img/240551596.png",
       "sections": [
         {

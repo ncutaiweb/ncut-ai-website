@@ -44,6 +44,12 @@
       </form>
 
       <div class="editor hidden" data-editor>
+        <details class="dashboard-panel">
+          <summary>共用資料引用（自動更新的人數與文字）</summary>
+          <p>在統計數字或段落中填入下列引用，例如「本系有 {{stats.faculty.fullTime}} 位專任教師」。新增、刪除或修改教師後，引用會重新計算，不需逐頁修改。教授分類依職稱計算；聘任類別可在教師表單設定。</p>
+          <p>表單下方會即時預覽結果；儲存後重新整理前台即可看到更新。GitHub Pages 需發布後才會更新。</p>
+          <ul data-reference-list></ul>
+        </details>
         <header class="admin-topbar">
           <div>
             <p class="eyebrow">NCUT AI Local CMS</p>
@@ -179,6 +185,7 @@
       </div>
     </section>
   </main>
-  <script src="./admin.js?v=local-cms-20260830"></script>
+  <script src="../site-references.js?v=20260917"></script>
+  <script src="./admin.js?v=references-20260917"></script>
 </body>
 </html>

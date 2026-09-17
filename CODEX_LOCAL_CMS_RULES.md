@@ -92,6 +92,8 @@ node scripts\build-pages.mjs
 
 ## 修改教師資訊規則
 
+會隨資料變動的人數或統計，請使用共用引用，不要改回固定數字。詳見 `DATA_REFERENCES.md`，例如 `{{stats.faculty.fullTime}}` 與 `{{stats.faculty.rankSummary}}`。來源 JSON 應保留引用；前台、後台與建置共用 `site-references.js`。新增兼任教師需設定 `employmentType: "partTime"`；未填類別沿用既有專任設定。修改引用規則後執行 `node tests/site-references.test.cjs`。
+
 教師資料位於 `data/site.json` 的 `faculty` 陣列。
 
 常用欄位：

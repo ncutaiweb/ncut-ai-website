@@ -55,6 +55,7 @@ function bindStaticEvents() {
     if (!field || !data) return;
     setPath(field.dataset.path, field.dataset.kind === "list" ? toList(field.value) : field.value);
     syncJson();
+    refreshReferences();
   });
 
   bindAddButtons();
@@ -136,8 +137,9 @@ async function save() {
   try {
     const jsonText = $("[data-json-editor]")?.value;
     if (jsonText?.trim()) data = JSON.parse(jsonText);
+    SiteReferences.resolve(data);
   } catch (error) {
-    setStatus(`JSON 格式錯誤：${error.message}`, true);
+    setStatus(`資料格式或引用錯誤：${error.message}`, true);
     return;
   }
 
@@ -227,6 +229,26 @@ function renderAll() {
   renderContent();
   renderAssets();
   syncJson();
+  refreshReferences();
+}
+
+function refreshReferences() {
+  if (!data) return;
+  const referenceList = document.querySelector('[data-reference-list]');
+  if (referenceList) referenceList.innerHTML = Object.entries(SiteReferences.values(data))
+    .map(([key, value]) => `<li><code>${esc(`{{${key}}}`)}</code> → ${esc(value)}</li>`).join('');
+  document.querySelectorAll('[data-path]').forEach(field => {
+    let preview = field.parentElement.querySelector('[data-reference-preview]');
+    if (!preview) {
+      preview = document.createElement('small');
+      preview.dataset.referencePreview = '';
+      field.parentElement.append(preview);
+    }
+    preview.hidden = !field.value.includes('{{');
+    if (preview.hidden) return;
+    try { preview.textContent = `顯示預覽：${SiteReferences.resolveText(field.value, data)}`; }
+    catch (error) { preview.textContent = error.message; }
+  });
 }
 
 function renderOverview() {
@@ -314,6 +336,7 @@ function renderFaculty() {
     input("姓名", `faculty.${i}.name`, item.name),
     input("英文名", `faculty.${i}.enName`, item.enName),
     input("職稱", `faculty.${i}.role`, item.role),
+    `<label>聘任類別<select data-path="faculty.${i}.employmentType"><option value="fullTime" ${(item.employmentType || 'fullTime') === 'fullTime' ? 'selected' : ''}>專任</option><option value="partTime" ${item.employmentType === 'partTime' ? 'selected' : ''}>兼任</option><option value="other" ${item.employmentType === 'other' ? 'selected' : ''}>其他</option></select></label>`,
     input("Email", `faculty.${i}.email`, item.email),
     input("電話", `faculty.${i}.phone`, item.phone),
     input("照片路徑", `faculty.${i}.photo`, item.photo),

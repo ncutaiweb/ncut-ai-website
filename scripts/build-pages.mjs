@@ -1,6 +1,7 @@
 import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import SiteReferences from "../site-references.js";
 
 class StaticSiteBuilder {
   constructor(root) {
@@ -23,6 +24,7 @@ class StaticSiteBuilder {
       "resources.html",
       "robots.txt",
       "script.js",
+      "site-references.js",
       "sitemap.xml",
       "student-resource.html",
       "styles.css"
@@ -32,6 +34,8 @@ class StaticSiteBuilder {
   }
 
   async build() {
+    const source = JSON.parse(StaticSiteBuilder.stripBom(await readFile(join(this.root, "data/site.json"), "utf8")));
+    SiteReferences.resolve(source); // Fail before building if a reference is missing or cyclic.
     await rm(this.outDir, { recursive: true, force: true });
     await mkdir(this.outDir, { recursive: true });
     await Promise.all(this.files.map((file) => this.copyFilePreservingPath(file)));
